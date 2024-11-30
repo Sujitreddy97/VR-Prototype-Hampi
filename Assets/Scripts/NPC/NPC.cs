@@ -7,8 +7,8 @@ namespace VRHampi.NPC
     public abstract class NPC : MonoBehaviour
     {
         [Header("Component References")]
-        [SerializeField] public Animator animator;
-        [SerializeField] public CharacterController characterController;
+        [SerializeField] internal Animator animator;
+        [SerializeField] internal CharacterController characterController;
 
     }
 }

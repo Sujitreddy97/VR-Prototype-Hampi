@@ -4,18 +4,11 @@ using UnityEngine;
 
 namespace VRHampi.NPC
 {
-    public class NPCSO : ScriptabeObject
+    [CreateAssetMenu(fileName = "NPCSO", menuName = "NPC", order = 1)]
+    public class NPCSO : ScriptableObject
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [Header("Sped")]
+        [SerializeField] internal float _moveSpeed;
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

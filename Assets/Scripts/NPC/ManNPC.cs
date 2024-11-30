@@ -6,6 +6,6 @@ namespace VRHampi.NPC
 {
     public class ManNPC : NPC
     {
-        
+        [SerializeField] private NPCSO npcSO;   
     }
 }
