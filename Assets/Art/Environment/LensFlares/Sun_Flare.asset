@@ -501,7 +501,7 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0}
     angularOffset: 0
     translationScale: {x: 1, y: 1}
-    m_LocalIntensity: 1.5
+    m_LocalIntensity: 0.8
     lensFlareTexture: {fileID: 2800000, guid: 6d3a6dc3aea7c9f438ce01d38580632b, type: 3}
     uniformScale: 12.33
     sizeXY: {x: 1, y: 1}
@@ -509,7 +509,7 @@ MonoBehaviour:
     m_Count: 5
     preserveAspectRatio: 0
     rotation: 0
-    tint: {r: 1, g: 1, b: 1, a: 0.5}
+    tint: {r: 0.9960785, g: 0.9960785, b: 0.8745099, a: 0.5}
     blendMode: 0
     autoRotate: 0
     flareType: 0
@@ -662,7 +662,7 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0}
     angularOffset: 0
     translationScale: {x: 1, y: 1}
-    m_LocalIntensity: 0.44
+    m_LocalIntensity: 0.2
     lensFlareTexture: {fileID: 2800000, guid: a6e4b8785b7b249478a3b75dda51ee16, type: 3}
     uniformScale: 4.2
     sizeXY: {x: 1, y: 1}
@@ -823,7 +823,7 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0}
     angularOffset: 0
     translationScale: {x: 1, y: 1}
-    m_LocalIntensity: 1
+    m_LocalIntensity: 0.5
     lensFlareTexture: {fileID: 2800000, guid: 18791733cc31ef24695760d026bbd290, type: 3}
     uniformScale: 3.93
     sizeXY: {x: 1, y: 1}
