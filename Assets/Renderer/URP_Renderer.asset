@@ -25,7 +25,7 @@ MonoBehaviour:
   m_SupportsTerrainHoles: 1
   m_SupportsHDR: 1
   m_HDRColorBufferPrecision: 0
-  m_MSAA: 1
+  m_MSAA: 2
   m_RenderScale: 1
   m_UpscalingFilter: 0
   m_FsrOverrideSharpness: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_ConservativeEnclosingSphere: 1
   m_NumIterationsEnclosingSphere: 64
   m_SoftShadowQuality: 2
-  m_AdditionalLightsCookieResolution: 2048
+  m_AdditionalLightsCookieResolution: 1024
   m_AdditionalLightsCookieFormat: 3
   m_UseSRPBatcher: 1
   m_SupportsDynamicBatching: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
   m_ColorGradingLutSize: 32
   m_AllowPostProcessAlphaOutput: 0
   m_UseFastSRGBLinearConversion: 0
-  m_SupportDataDrivenLensFlare: 1
-  m_SupportScreenSpaceLensFlare: 1
+  m_SupportDataDrivenLensFlare: 0
+  m_SupportScreenSpaceLensFlare: 0
   m_GPUResidentDrawerMode: 0
   m_SmallMeshScreenPercentage: 0
   m_GPUResidentDrawerEnableOcclusionCullingInCameras: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_PrefilterDebugKeywords: 1
   m_PrefilterWriteRenderingLayers: 1
   m_PrefilterHDROutput: 1
-  m_PrefilterAlphaOutput: 0
+  m_PrefilterAlphaOutput: 1
   m_PrefilterSSAODepthNormals: 1
   m_PrefilterSSAOSourceDepthLow: 1
   m_PrefilterSSAOSourceDepthMedium: 1
@@ -123,9 +123,9 @@ MonoBehaviour:
   m_PrefilterDBufferMRT2: 1
   m_PrefilterDBufferMRT3: 1
   m_PrefilterSoftShadowsQualityLow: 1
-  m_PrefilterSoftShadowsQualityMedium: 1
+  m_PrefilterSoftShadowsQualityMedium: 0
   m_PrefilterSoftShadowsQualityHigh: 1
-  m_PrefilterSoftShadows: 0
+  m_PrefilterSoftShadows: 1
   m_PrefilterScreenCoord: 1
   m_PrefilterNativeRenderPass: 1
   m_PrefilterUseLegacyLightmaps: 0
