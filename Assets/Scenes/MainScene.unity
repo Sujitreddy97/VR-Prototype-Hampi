@@ -1986,6 +1986,17 @@ MonoBehaviour:
   animator: {fileID: 1919418696311915285}
   characterController: {fileID: 5495246922582563185}
   npcSO: {fileID: 11400000, guid: 11badb85cefb5004e9b73b4222063d73, type: 2}
+  _waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &5557748105575245006
 Transform:
   m_ObjectHideFlags: 0

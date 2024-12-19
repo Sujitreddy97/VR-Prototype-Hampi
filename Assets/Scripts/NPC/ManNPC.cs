@@ -6,6 +6,19 @@ namespace VRHampi.NPC
 {
     public class ManNPC : NPC
     {
-        [SerializeField] private NPCSO npcSO;   
+        public override void Interact()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void HandleBehavior()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void InitializeNPC()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
