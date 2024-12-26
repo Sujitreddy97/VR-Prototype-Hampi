@@ -12,19 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6f172f987e1ea4a8d47db05b6b40a8, type: 3}
   m_Name: NPCSO
   m_EditorClassIdentifier: 
-  _npcName: Man
-  _moveSpeed: 1
-  _rotationSpeed: 180
-  _detectionRange: 5
-  _patrolRadius: 10
-  _idleAnimationTrigger: Idle
-  _walkAnimationTrigger: Walk
-  _interactAnimationTrigger: Interact
-  _npcType: Default
-  _waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _description: 
+  npcName: Male
+  WalkSpeed: 3
+  WaypointWaitTime: 5
+  RotationSpeed: 180
