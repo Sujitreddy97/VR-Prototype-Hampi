@@ -15,41 +15,25 @@ namespace VRHampi.NPC
         [Header("Scriptable Object Reference")]
         [SerializeField] private NPCSO npcSO;
 
+        [Header("Dialogue System")]
+        [SerializeField] private NPCDialogueSO dialogueSO;
+        [SerializeField] private UIController uiController;
+
+        [Header("Interaction Settings")]
+        [SerializeField] private float interactionRange = 3f;
+
         [Header("Waypoints")]
         [SerializeField] private Transform[] waypoints;
 
         private int currentWaypointIndex = 0;
         private NPCState currentState;
         private float stateTimer = 0f;
-
-        private void Awake()
-        {
-            /*characterController = GetComponent<CharacterController>();
-
-            if (npcSO == null)
-            {
-                Debug.LogError("NPCSO is not assigned to NPCController.");
-            }
-
-            if (waypoints == null || waypoints.Length == 0)
-            {
-                Debug.LogError("Waypoints are not assigned to NPCController.");
-            }
-
-            if (npcAnimationController == null)
-            {
-                npcAnimationController = GetComponent<NPCAnimationController<NPCState>>();
-                if (npcAnimationController == null)
-                {
-                    Debug.LogError("Animation Controller is not assigned to NPCController.");
-                }
-            }*/
-        }
+        private bool isPlayerInRange = false;
 
         private void Start()
         {
             currentState = NPCState.Idle;
-            stateTimer = npcSO.WaypointWaitTime; // Initialize idle duration
+            stateTimer = npcSO.WaypointWaitTime;
             npcAnimationController.PlayAnimation(NPCState.Idle);
         }
 
@@ -77,7 +61,7 @@ namespace VRHampi.NPC
         {
             stateTimer -= Time.deltaTime;
 
-            if (stateTimer <= 0f)
+            if (stateTimer <= 0f && !isPlayerInRange) // Transition only if no player interaction
             {
                 TransitionToState(NPCState.Walking);
             }
@@ -116,6 +100,7 @@ namespace VRHampi.NPC
             // Logic for interaction can go here (e.g., interacting with a player or environment)
             Debug.Log("Interacting with the environment or player.");
 
+            uiController.StartDialogue(dialogueSO);
             // Return to Idle after interaction
             TransitionToState(NPCState.Idle);
         }
@@ -150,5 +135,56 @@ namespace VRHampi.NPC
         }
 
         #endregion
+
+        #region Player Interaction
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                isPlayerInRange = true;
+                uiController.ShowTalkButton(true); // Show Talk button
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                isPlayerInRange = false;
+                uiController.ShowTalkButton(false); // Hide Talk button
+            }
+        }
+
+        public void OnTalkButtonPressed()
+        {
+            if (isPlayerInRange && currentState != NPCState.Interacting)
+            {
+                TransitionToState(NPCState.Interacting);
+            }
+        }
+
+        #endregion
+
+        private void OnDrawGizmos()
+        {
+            // Draw the interaction range
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, interactionRange);
+
+            // Draw waypoints if any
+            if (waypoints != null && waypoints.Length > 0)
+            {
+                Gizmos.color = Color.green;
+                for (int i = 0; i < waypoints.Length; i++)
+                {
+                    Gizmos.DrawSphere(waypoints[i].position, 0.2f);
+                    if (i < waypoints.Length - 1)
+                    {
+                        Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
+                    }
+                }
+            }
+        }
     }
 }
