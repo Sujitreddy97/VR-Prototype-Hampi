@@ -143,6 +143,7 @@ namespace VRHampi.NPC
             if (other.CompareTag("Player"))
             {
                 isPlayerInRange = true;
+                Debug.Log("Player in Range");
                 uiController.ShowTalkButton(true); // Show Talk button
             }
         }
@@ -152,6 +153,7 @@ namespace VRHampi.NPC
             if (other.CompareTag("Player"))
             {
                 isPlayerInRange = false;
+                Debug.Log("Player Not in Range");
                 uiController.ShowTalkButton(false); // Hide Talk button
             }
         }
