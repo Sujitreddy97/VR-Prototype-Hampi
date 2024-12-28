@@ -10,7 +10,7 @@ namespace VRHampi.NPC
         [SerializeField] private CharacterController npcCharacterController;
 
         [Header("Animation Controller")]
-        [SerializeField] private NPCAnimationController npcAnimationController;
+        [SerializeField] private Animator npcAnimator;
 
         [Header("Scriptable Object Reference")]
         [SerializeField] private NPCSO npcSO;
@@ -27,6 +27,7 @@ namespace VRHampi.NPC
 
         private int currentWaypointIndex = 0;
         private NPCState currentState;
+        private NPCState previousState;
         private float stateTimer = 0f;
         private bool isPlayerInRange = false;
 
@@ -34,11 +35,13 @@ namespace VRHampi.NPC
         {
             currentState = NPCState.Idle;
             stateTimer = npcSO.WaypointWaitTime;
-            npcAnimationController.PlayAnimation(NPCState.Idle);
+            //npcAnimator.SetTrigger("Idle");
+            TransitionToState(NPCState.Idle);
         }
 
         private void Update()
         {
+            CheckPlayerInRange();
             switch (currentState)
             {
                 case NPCState.Idle:
@@ -79,24 +82,27 @@ namespace VRHampi.NPC
             // Move towards the current waypoint
             Vector3 targetPosition = waypoints[currentWaypointIndex].position;
             Vector3 direction = (targetPosition - transform.position).normalized;
-            npcCharacterController.Move(direction * npcSO.WalkSpeed * Time.deltaTime);
 
-            // Rotate towards the waypoint
-            RotateTowards(targetPosition);
-            npcAnimationController.PlayAnimation(NPCState.Walking);
-
-            // Check if we reached the waypoint
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            if (Vector3.Distance(transform.position, targetPosition) >= 0.1f) // Still walking
             {
+                npcCharacterController.Move(direction * npcSO.WalkSpeed * Time.deltaTime);
+                RotateTowards(targetPosition); // Rotate towards the waypoint
+                //npcAnimator.SetTrigger("Walking");
+                TransitionToState(NPCState.Walking);
+            }
+            else // Reached the waypoint
+            {
+                Debug.Log($"Reached at the Destination: { currentWaypointIndex}");
                 currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length; // Loop waypoints
-                TransitionToState(NPCState.Idle);
+                TransitionToState(NPCState.Idle); // Transition to Idle
                 stateTimer = npcSO.WaypointWaitTime; // Set wait time at waypoint
             }
         }
 
         private void NpcInteractBehaviour()
         {
-            npcAnimationController.PlayAnimation(NPCState.Interacting);
+            //npcAnimationController.PlayAnimation(NPCState.Interacting);
+            npcAnimator.SetTrigger("Interacting");
             // Logic for interaction can go here (e.g., interacting with a player or environment)
             Debug.Log("Interacting with the environment or player.");
 
@@ -111,18 +117,26 @@ namespace VRHampi.NPC
 
         private void TransitionToState(NPCState newState)
         {
+            if (currentState == newState) return; // Avoid redundant transitions
             currentState = newState;
+
             Debug.Log($"Transitioned to state: {newState}");
+
             switch (newState)
             {
                 case NPCState.Idle:
-                    npcAnimationController.PlayAnimation(NPCState.Idle);
+                    Debug.Log("Triggering Idle animation");
+                    npcAnimator.SetTrigger("Idle");
                     break;
+
                 case NPCState.Walking:
-                    npcAnimationController.PlayAnimation(NPCState.Walking);
+                    Debug.Log("Triggering Walking animation");
+                    npcAnimator.SetTrigger("Walking");
                     break;
+
                 case NPCState.Interacting:
-                    npcAnimationController.PlayAnimation(NPCState.Interacting);
+                    Debug.Log("Triggering Interacting animation");
+                    npcAnimator.SetTrigger("Interacting");
                     break;
             }
         }
@@ -138,36 +152,52 @@ namespace VRHampi.NPC
 
         #region Player Interaction
 
-        private void OnTriggerEnter(Collider other)
+        private void CheckPlayerInRange()
         {
-            if (other.CompareTag("Player"))
-            {
-                isPlayerInRange = true;
-                Debug.Log("Player in Range");
-                uiController.ShowTalkButton(true); // Show Talk button
-            }
-        }
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, interactionRange);
+            bool playerDetected = false;
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Player"))
+                {
+                    playerDetected = true;
+                    if (!isPlayerInRange)
+                    {
+                        isPlayerInRange = true;
+                        uiController.ShowTalkButton(true);
+                    }
+                    break;
+                }
+            }
+
+            if (!playerDetected && isPlayerInRange)
             {
                 isPlayerInRange = false;
-                Debug.Log("Player Not in Range");
-                uiController.ShowTalkButton(false); // Hide Talk button
+                uiController.ShowTalkButton(false);
             }
         }
-
         public void OnTalkButtonPressed()
         {
             if (isPlayerInRange && currentState != NPCState.Interacting)
             {
+                previousState = currentState;
                 TransitionToState(NPCState.Interacting);
+            }
+        }
+
+        public void FinishInteraction()
+        {
+            if (currentState == NPCState.Interacting)
+            {
+                // Return to the previous state (Idle or Walking)
+                TransitionToState(previousState);
             }
         }
 
         #endregion
 
+        #region GizmosMethod
         private void OnDrawGizmos()
         {
             // Draw the interaction range
@@ -188,5 +218,7 @@ namespace VRHampi.NPC
                 }
             }
         }
+
+        #endregion
     }
 }

@@ -20,7 +20,7 @@ namespace VRHampi
 
         [Header("NPC Dialogue")]
         [SerializeField] private NPCDialogueSO currentDialogueSO;
-
+        [SerializeField] private NPCController npcController;
         private string[] dialogueLines; // Array of dialogue lines to display
         private int currentLineIndex = 0; // Tracks the current dialogue line being displayed
 
@@ -54,6 +54,7 @@ namespace VRHampi
 
         public void EndDialogue()
         {
+            npcController.FinishInteraction();
             dialoguePanel.SetActive(false);
             ResetUI();
         }
