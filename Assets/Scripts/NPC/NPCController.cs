@@ -20,7 +20,7 @@ namespace VRHampi.NPC
         [SerializeField] private UIController uiController;
 
         [Header("Interaction Settings")]
-        [SerializeField] private float interactionRange = 3f;
+        [SerializeField] private float interactionRange = 2f;
 
         [Header("Waypoints")]
         [SerializeField] private Transform[] waypoints;
@@ -30,6 +30,7 @@ namespace VRHampi.NPC
         private NPCState previousState;
         private float stateTimer = 0f;
         private bool isPlayerInRange = false;
+        private bool isInteracting = false;
 
         private void Start()
         {
@@ -42,6 +43,13 @@ namespace VRHampi.NPC
         private void Update()
         {
             CheckPlayerInRange();
+
+            if (isInteracting)
+            {
+                // If interaction is ongoing, do not perform other behaviors like walking
+                return;
+            }
+
             switch (currentState)
             {
                 case NPCState.Idle:
@@ -52,9 +60,7 @@ namespace VRHampi.NPC
                     NpcWalkBehaviour();
                     break;
 
-                case NPCState.Interacting:
-                    NpcInteractBehaviour();
-                    break;
+                
             }
         }
 
@@ -101,14 +107,12 @@ namespace VRHampi.NPC
 
         private void NpcInteractBehaviour()
         {
-            //npcAnimationController.PlayAnimation(NPCState.Interacting);
-            npcAnimator.SetTrigger("Interacting");
-            // Logic for interaction can go here (e.g., interacting with a player or environment)
             Debug.Log("Interacting with the environment or player.");
 
             uiController.StartDialogue(dialogueSO);
-            // Return to Idle after interaction
-            TransitionToState(NPCState.Idle);
+
+            TransitionToState(NPCState.Interacting);
+            isInteracting = true;
         }
 
         #endregion
@@ -183,18 +187,30 @@ namespace VRHampi.NPC
             {
                 previousState = currentState;
                 TransitionToState(NPCState.Interacting);
+                NpcInteractBehaviour();
             }
         }
 
         public void FinishInteraction()
         {
-            if (currentState == NPCState.Interacting)
+            if (isInteracting)
             {
-                // Return to the previous state (Idle or Walking)
-                TransitionToState(previousState);
+                isInteracting = false; // End interaction
+
+                // Check if the previous state was Idle
+                if (previousState == NPCState.Idle)
+                {
+                    // Restart walking behavior
+                    TransitionToState(NPCState.Walking); // Transition to walking
+                    //NpcWalkBehaviour();
+                }
+                else
+                {
+                    // Return to the previous state (Walking or whatever it was before interacting)
+                    TransitionToState(previousState);
+                }
             }
         }
-
         #endregion
 
         #region GizmosMethod

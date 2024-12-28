@@ -25,10 +25,24 @@ namespace VRHampi
         private int currentLineIndex = 0; // Tracks the current dialogue line being displayed
 
         #region Unity Methods
+
+        private void OnEnable()
+        {
+            nextButton.onClick.AddListener(NextDialogue);
+            previousButton.onClick.AddListener(PreviousDialogue);
+            finishButton.onClick.AddListener(EndDialogue);
+        }
+
+        private void OnDisable()
+        {
+            nextButton.onClick.RemoveListener(NextDialogue);
+            previousButton.onClick.RemoveListener(PreviousDialogue);
+            finishButton.onClick.RemoveListener(EndDialogue);
+        }
+
         private void Start()
         {
             ResetUI();
-            AddButtonListeners();
         }
         #endregion
 
@@ -44,6 +58,14 @@ namespace VRHampi
             currentDialogueSO = dialogueSO;
             dialogueLines = dialogueSO.dialogueLines.ToArray(); // Retrieve dialogue lines from the SO
             currentLineIndex = 0;
+
+            if (dialogueLines == null || dialogueLines.Length == 0)
+            {
+                Debug.LogError("Dialogue lines are not initialized or empty!");
+                return;
+            }
+
+            Debug.Log($"Starting dialogue with {dialogueLines.Length} lines.");
             UpdateDialogueText();
 
             talkButton.SetActive(false);
@@ -71,35 +93,43 @@ namespace VRHampi
             if (dialogueLines != null && dialogueLines.Length > 0 && currentLineIndex >= 0 && currentLineIndex < dialogueLines.Length)
             {
                 dialogueText.text = dialogueLines[currentLineIndex];
+                Debug.Log($"Displaying dialogue line {currentLineIndex}: {dialogueLines[currentLineIndex]}");
+            }
+            else
+            {
+                Debug.LogError($"Invalid dialogue line index: {currentLineIndex}. Ensure index is within bounds.");
             }
         }
 
         private void UpdateNavigationButtons()
         {
-            previousButton.gameObject.SetActive(currentLineIndex > 0);
-            nextButton.gameObject.SetActive(currentLineIndex < dialogueLines.Length - 1);
-            finishButton.gameObject.SetActive(currentLineIndex == dialogueLines.Length - 1);
+            bool hasPrevious = currentLineIndex > 0;
+            bool hasNext = currentLineIndex < dialogueLines.Length - 1;
+            bool isFinish = currentLineIndex == dialogueLines.Length - 1;
+
+            previousButton.gameObject.SetActive(hasPrevious);
+            nextButton.gameObject.SetActive(hasNext);
+            finishButton.gameObject.SetActive(isFinish);
+
+            Debug.Log($"Navigation Buttons - Previous: {hasPrevious}, Next: {hasNext}, Finish: {isFinish}");
         }
 
         #endregion
 
         #region Button Listeners
-
-        private void AddButtonListeners()
-        {
-            nextButton.onClick.AddListener(NextDialogue);
-            previousButton.onClick.AddListener(PreviousDialogue);
-            skipButton.onClick.AddListener(SkipDialogue);
-            finishButton.onClick.AddListener(EndDialogue);
-        }
-
         private void NextDialogue()
         {
             if (currentLineIndex < dialogueLines.Length - 1)
             {
                 currentLineIndex++;
+
+                Debug.Log($"Next button clicked. Current line index: {currentLineIndex}");
                 UpdateDialogueText();
                 UpdateNavigationButtons();
+            }
+            else
+            {
+                Debug.LogWarning("Next button clicked but no more lines available.");
             }
         }
 
@@ -108,14 +138,14 @@ namespace VRHampi
             if (currentLineIndex > 0)
             {
                 currentLineIndex--;
+                Debug.Log($"Previous button clicked. Current line index: {currentLineIndex}");
                 UpdateDialogueText();
                 UpdateNavigationButtons();
             }
-        }
-
-        private void SkipDialogue()
-        {
-            EndDialogue();
+            else
+            {
+                Debug.LogWarning("Previous button clicked but no more lines available.");
+            }
         }
 
         #endregion
