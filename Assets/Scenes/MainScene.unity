@@ -4012,7 +4012,6 @@ GameObject:
   - component: {fileID: 1919418696311915285}
   - component: {fileID: 5495246922582563185}
   - component: {fileID: 5495246922582563188}
-  - component: {fileID: 5495246922582563187}
   - component: {fileID: 5495246922582563189}
   m_Layer: 0
   m_Name: BotModel
@@ -4140,20 +4139,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &5495246922582563187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5118579959747036117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b648648fc2ad758488c01965c57ca6bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1919418696311915285}
-  npcAnimationController: {fileID: 5495246922582563187}
 --- !u!114 &5495246922582563188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4167,7 +4152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcCharacterController: {fileID: 5495246922582563185}
-  npcAnimationController: {fileID: 5495246922582563187}
   npcAnimator: {fileID: 1919418696311915285}
   npcSO: {fileID: 11400000, guid: 11badb85cefb5004e9b73b4222063d73, type: 2}
   dialogueSO: {fileID: 11400000, guid: 328140583bd80554e82124b719cda5fe, type: 2}
