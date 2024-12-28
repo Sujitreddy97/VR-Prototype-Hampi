@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: NPCSO
   m_EditorClassIdentifier: 
   npcName: Male
-  WalkSpeed: 3
+  WalkSpeed: 2
   WaypointWaitTime: 5
   RotationSpeed: 180
