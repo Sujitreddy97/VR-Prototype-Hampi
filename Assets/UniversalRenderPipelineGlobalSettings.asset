@@ -52,22 +52,10 @@ MonoBehaviour:
       - rid: 3747069798585991184
       - rid: 3747069798585991185
       - rid: 3747069798585991186
-      - rid: 3747069798585991187
+      - rid: 6079232248061624320
       - rid: 3747069798585991188
     m_RuntimeSettings:
-      m_List:
-      - rid: 3747069798585991169
-      - rid: 3747069798585991171
-      - rid: 3747069798585991173
-      - rid: 3747069798585991174
-      - rid: 3747069798585991176
-      - rid: 3747069798585991177
-      - rid: 3747069798585991178
-      - rid: 3747069798585991180
-      - rid: 3747069798585991181
-      - rid: 3747069798585991185
-      - rid: 3747069798585991187
-      - rid: 3747069798585991188
+      m_List: []
   m_AssetVersion: 8
   m_ObsoleteDefaultVolumeProfile: {fileID: 0}
   m_RenderingLayerNames:
@@ -246,11 +234,6 @@ MonoBehaviour:
         probeVolumeOffsetDebugShader: {fileID: 4800000, guid: db8bd7436dc2c5f4c92655307d198381, type: 3}
         probeSamplingDebugMesh: {fileID: -3555484719484374845, guid: 20be25aac4e22ee49a7db76fb3df6de2, type: 3}
         numbersDisplayTex: {fileID: 2800000, guid: 73fe53b428c5b3440b7e87ee830b608a, type: 3}
-    - rid: 3747069798585991187
-      type: {class: ProbeVolumeGlobalSettings, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
-      data:
-        m_Version: 1
-        m_ProbeVolumeDisableStreamingAssets: 0
     - rid: 3747069798585991188
       type: {class: ShaderStrippingSetting, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
@@ -258,3 +241,8 @@ MonoBehaviour:
         m_ExportShaderVariants: 1
         m_ShaderVariantLogLevel: 0
         m_StripRuntimeDebugShaders: 1
+    - rid: 6079232248061624320
+      type: {class: ProbeVolumeGlobalSettings, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
+      data:
+        m_Version: 1
+        m_ProbeVolumeDisableStreamingAssets: 0
